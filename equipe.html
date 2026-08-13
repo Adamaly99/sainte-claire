@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Clinique Sainte-Claire — Découvrez notre équipe de médecins spécialistes qualifiés et expérimentés.">
+  <title>Équipe Médicale — Clinique Sainte-Claire</title>
+  <link rel="stylesheet" href="stylee.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700;800;900&family=Lato:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* Styles spécifiques à equipe.html */
+    .equipe-intro {
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 30px 35px;
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      margin-bottom: 50px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .equipe-intro-icon {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.8rem;
+      flex-shrink: 0;
+    }
+
+    .equipe-intro-text h3 {
+      font-family: var(--font-head);
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 7px;
+    }
+
+    .equipe-intro-text p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.65;
+    }
+
+    /* Section par service */
+    .equipe-section-title {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 22px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .equipe-section-title i { color: var(--secondary); }
+
+    /* Médecin card — couleurs d'avatar par genre/service */
+    .medecin-card.card-femme .medecin-photo {
+      background: linear-gradient(145deg, #7D3C98, #A569BD);
+    }
+
+    .medecin-card.card-homme .medecin-photo {
+      background: linear-gradient(145deg, var(--primary), var(--secondary));
+    }
+
+    .medecin-card.card-spe-cardio .medecin-photo {
+      background: linear-gradient(145deg, #C0392B, #E74C3C);
+    }
+
+    .medecin-card.card-spe-neuro .medecin-photo {
+      background: linear-gradient(145deg, #1E8449, #27AE60);
+    }
+
+    .medecin-card.card-spe-ortho .medecin-photo {
+      background: linear-gradient(145deg, #784212, #D35400);
+    }
+
+    .medecin-card.card-spe-dermato .medecin-photo {
+      background: linear-gradient(145deg, #117A65, #1ABC9C);
+    }
+
+    /* Langues parlées */
+    .medecin-langues {
+      display: flex;
+      gap: 6px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .langue-pill {
+      background: var(--accent-light);
+      color: var(--primary-light);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 9px;
+      border-radius: 50px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* RDV bouton dans la fiche */
+    .medecin-rdv-btn {
+      display: block;
+      text-align: center;
+      background: var(--accent-light);
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 9px;
+      border-radius: var(--radius-xs);
+      margin-top: 14px;
+      transition: var(--transition);
+    }
+
+    .medecin-rdv-btn:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .medecin-rdv-btn i { margin-right: 5px; }
+
+    /* Encart rejoindre */
+    .rejoindre-box {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border-radius: var(--radius);
+      padding: 40px;
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    .rejoindre-box i { font-size: 2.5rem; margin-bottom: 16px; display: block; }
+    .rejoindre-box h3 {
+      font-family: var(--font-head);
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    .rejoindre-box p {
+      opacity: 0.88;
+      font-size: 0.93rem;
+      max-width: 500px;
+      margin: 0 auto 22px;
+      line-height: 1.6;
+    }
+    .rejoindre-box a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: white;
+      color: var(--primary);
+      padding: 12px 28px;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 0.92rem;
+      transition: var(--transition);
+    }
+    .rejoindre-box a:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    }
+
+    @media (max-width: 600px) {
+      .equipe-intro { flex-direction: column; text-align: center; }
+      .rejoindre-box { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="urgences-bar">
+    <i class="fa-solid fa-circle-exclamation urg-icon"></i>
+    <span>URGENCES 24h/24 — 7j/7 :</span>
+    <a href="tel:+33155000000"><i class="fa-solid fa-phone-volume"></i> +33 1 55 00 00 00</a>
+    <span class="urg-sep">|</span>
+    <span>SAMU : <a href="tel:15">15</a></span>
+    <span class="urg-sep">|</span>
+    <span>Pompiers : <a href="tel:18">18</a></span>
+    <span class="urg-badge"><i class="fa-solid fa-location-dot"></i> Salle d'urgence ouverte</span>
+  </div>
+
+  <header>
+    <nav class="navbar">
+      <a href="index.html" class="logo">
+        <div class="logo-mark">
+          <i class="fa-solid fa-heart-pulse"></i>
+        </div>
+        <div class="logo-text-wrap">
+          <h1>Clinique Sainte-Claire</h1>
+          <span>Centre Médical Pluridisciplinaire</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="services.html">Nos Services</a></li>
+        <li><a href="equipe.html" class="active">Équipe Médicale</a></li>
+        <li><a href="rendez-vous.html" class="nav-rdv-btn">
+          <i class="fa-solid fa-calendar-check"></i> Rendez-vous
+        </a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="page-header">
+    <h2><i class="fa-solid fa-user-doctor"></i> Notre Équipe Médicale</h2>
+    <p>Des spécialistes engagés, à votre écoute, formés dans les meilleures universités</p>
+  </div>
+
+  <div class="breadcrumb">
+    <div class="breadcrumb-inner">
+      <a href="index.html"><i class="fa-solid fa-house"></i> Accueil</a>
+      <span class="sep"><i class="fa-solid fa-chevron-right" style="font-size:0.65rem"></i></span>
+      <span>Équipe Médicale</span>
+    </div>
+  </div>
+
+  <section>
+    <div class="container">
+
+      <div class="equipe-intro">
+        <div class="equipe-intro-icon">
+          <i class="fa-solid fa-user-group"></i>
+        </div>
+        <div class="equipe-intro-text">
+          <h3>Une équipe pluridisciplinaire à votre service</h3>
+          <p>La Clinique Sainte-Claire réunit <strong>15 médecins spécialistes</strong>, tous sélectionnés pour leur expertise, leur bienveillance et leur engagement envers la qualité des soins. Chaque praticien est en formation continue et respecte les recommandations de la Haute Autorité de Santé (HAS).</p>
+        </div>
+      </div>
+
+      <h3 class="equipe-section-title">
+        <i class="fa-solid fa-stethoscope"></i> Médecine Générale & Urgences
+      </h3>
+
+      <div class="medecins-flex">
+
+        <div class="medecin-card card-femme">
+          <div class="medecin-photo">
+            <div class="medecin-avatar-fallback">
+              <i class="fa-solid fa-user-doctor"></i>
+            </div>
+            <span class="medecin-gender-badge"><i class="fa-solid fa-venus"></i> Dr. Généraliste</span>
+          </div>
+          <div class="medecin-body">
+            <h3>Dr. Aminata Diallo</h3>
+            <div class="medecin-specialite">
+              <i class="fa-solid fa-stethoscope"></i> Médecin Généraliste
+            </div>
+            <div class="medecin-details">
+              <div class="medecin-detail-line">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Diplômée de la Faculté de Médecine de Paris VI — Promotion 2008</span>
+              </div>
+              <div class="medecin-detail-line">
+                <i class="fa-solid fa-award"></i>
+                <span>DU Médecine d'Urgence, Hôpital Lariboisière — Paris</span>
+              </div>
+              <div class="medecin-detail-line">
+                <i class="fa-solid fa-briefcase"></i>
+                <span>15 ans d'exercice — 3 500 patients suivis</span>
+              </div>
+            </div>
+            <div class="medecin-langues">
+              <span class="langue-pill">Français</span>
+              <span class="langue-pill">Anglais</span>
+              <span class="langue-pill">Wolof</span>
+            </div>
+            <div class="medecin-dispo">
+              <span class="dispo-pill"><i class="fa-solid fa-circle-check"></i> Disponible cette semaine</span>
+            </div>
+            <a href="rendez-vous.html" class="medecin-rdv-btn">
+              <i class="fa-solid fa-calendar-plus"></i> Prendre rendez-vous
+            </a>
+          </div>
+        </div>
+
+        <div class="medecin-card card-homme">
+          <div class="medecin-photo">
+            <div class="medecin-avatar-fallback">
+              <i class="fa-solid fa-user-doctor"></i>
+            </div>
+            <span class="medecin-gender-badge"><i class="fa-solid fa-mars"></i> Dr. Généraliste</span>
+          </div>
+          <div class="medecin-body">
+            <h3>Dr. Jean-Paul Renard</h3>
+            <div class="medecin-specialite">
+              <i class="fa-solid fa-stethoscope"></i> Médecin Généraliste
+            </div>
+            <div class="medecin-details">
+              <div class="medecin-detail-line">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Diplômé de la Faculté de Médecine de Lyon 1 — 2005</span>
+              </div>
+              <div class="medecin-detail-line">
+                <i class="fa-solid fa-award"></i>
+                <span>Capacité en Gériatrie — CHU Lyon Edouard Herriot</span>
+              </div>
+              <div class="medecin-detail-line">
+                <i class="fa-solid fa-briefcase"></i>
+                <span>18 ans d'exercice — Expert maladies chroniques</span>
+              </div>
+            </div>
+            <div class="medecin-langues">
+              <span class="langue-pill">Français</span>
+              <span class="langue-pill">Espagnol</span>
+            </div>
+            <div class="medecin-dispo">
+              <span class="dispo-pill"><i class="fa-solid fa-circle-check"></i> Disponible cette semaine</span>
+            </div>
+            <a href="rendez-vous.html" class="medecin-rdv-btn">
+              <i class="fa-solid fa-calendar-plus"></i> Prendre rendez-vous
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <h3 class="equipe-section-title" style="margin-top:50px;">
+        <i class="fa-solid fa-microscope"></i> Médecins Spécialistes
+      </h3>
+
+      <div class="medecins-flex">
+
+        <div class="medecin-card card-spe-cardio">
+          <div class="medecin-photo">
+            <div class="medecin-avatar-fallback">
+              <i class="fa-solid fa-heart-pulse"></i>
+            </div>
+            <span class="medecin-gender-badge"><i class="fa-solid fa-mars"></i> Cardiologue</span>
+          </div>
+          <div class="medecin-body">
+            <h3>Dr. Thomas Beaumont</h3>
+            <div class="medecin-specialite">
+              <i class="fa-solid fa-heart-pulse"></i> Cardiologie
+            </div>
+            <div class="medecin-details">
+              <div class="medecin-detail-line">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Diplômé de la Faculté Paris-Descartes — 2004</span>
+              </div>
+              <div class="medecin-detail-line">
+                <i class="fa-solid fa-award"></i>
+                <span>DESC Cardiologie & Maladies Vasculaires — Bichat</span>
+              </div>
+              <div class="medecin-detail-line">
+                <i class="fa-solid fa-award"></i>
+                <span>Membre de la Société Française de Cardiologie (SFC)</span>
+              </div>
+              <div class="medecin-detail-line">
+                <i class="fa-solid fa-briefcase"></i>
+                <span>20 ans d'expérience — Spécialiste insuffisance cardiaque</span>
+              </div>
+            </div>
+            <div class="medecin-langues">
+              <span class="langue-pill">Français</span>
+              <span class="langue-pill">Anglais</span>
+              <span class="langue-pill">Allemand</span>
+            </div>
+            <div class="medecin-dispo">
+              <span class="dispo-pill"><i class="fa-solid fa-circle-check"></i> Disponible cette semaine</span>
+            </div>
+            <a href="rendez-vous.html" class="medecin-rdv-btn">
+              <i class="fa-solid fa-calendar-plus"></i> Prendre rendez-vous
+            </a>
+          </div>
+        </div>
+
+        <div class="medecin-card card-femme">
+          <div class="medecin-photo">
+            <div class="medecin-avatar-fallback">
+              <i class="fa-solid fa-baby"></i>
+            </div>
+            <span class="medecin-gender-badge"><i class="fa-solid fa-venus"></i> Pédiatre</span>
+          </div>
+          <div class="medecin-body">
+            <h3>Dr. Fatou Sow</h3>
+            <div class="medecin-specialite">
+              <i class="fa-solid fa-baby"></i> Pédiatrie
+            </div>
+            <div class="medecin-details">
+              <div class="medecin-detail-line">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Diplômée de l'Université Cheikh Anta Diop (UCAD) — 2010</span>
+              </div>
+              <div class="medecin-detail-line">
+                <i class="fa-solid fa-award"></i>
+                <span>Spécialisation Pédiatrie, Hôpital Necker Enfants — Paris</span>
+              </div>
+              <div class="medecin-detail-line">
+                <i class="fa-solid fa-briefcase"></i>
+                <span>12 ans d'exercice — Expert soins néonatals</span>
+              </div>
+            </div>
+            <div class="medecin-langues">
+              <span class="langue-pill">Français</span>
+              <span class="langue-pill">Anglais</span>
+              <span class="langue-pill">Wolof</span>
+            </div>
+            <div class="medecin-dispo">
+              <span class="dispo-pill"><i class="fa-solid fa-circle-check"></i> Disponible cette semaine</span>
+            </div>
+            <a href="rendez-vous.html" class="medecin-rdv-btn">
+              <i class="fa-solid fa-calendar-plus"></i> Prendre rendez-vous
+            </a>
+          </div>
+        </div>
+
+        <div class="medecin-card card-spe-ortho">
+          <div class="medecin-photo">
+            <div class="medecin-avatar-fallback">
+              <i class="fa-solid fa-bone"></i>
+            </div>
+            <span class="medecin-gender-badge"><i class="fa-solid fa-mars"></i> Chirurgien</span>
+          </div>
+          <div class="medecin-body">
+            <h3>Dr. Ibrahim Touré</h3>
+            <div class="medecin-specialite">
+              <i class="fa-solid fa-bone"></i> Chirurgie Orthopédique
+            </div>
+            <div class="medecin-details">
+              <div class="medecin-detail-line">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Diplômé de la Faculté de Médecine de Lyon 1 — 2003</span>
+              </div>
+              <div class="medecin-detail-line">
+                <i class="fa-solid fa-award"></i>
+                <span>DESC Chirurgie Orthopédique & Traumatologique</span>
+              </div>
+              <div class="medecin-detail-line">
+                <i class="fa-solid fa-award"></i>
+                <span>Fellowship Chirurgie du Genou — Hôpital Cochin Paris</span>
+              </div>
+              <div class="medecin-detail-line">
+                <i class="fa-solid fa-briefcase"></i>
+                <span>20 ans — +2 000 interventions réalisées</span>
+              </div>
+            </div>
+            <div class="medecin-langues">
+              <span class="langue-pill">Français</span>
+              <span class="langue-pill">Anglais</span>
+              <span class="langue-pill">Bambara</span>
+            </div>
+            <div class="medecin-dispo">
+              <span class="dispo-pill" style="background:#FEF9C3;color:#854D0E;"><i class="fa-solid fa-clock"></i> Prochain RDV : 5 jours</span>
+            </div>
+            <a href="rendez-vous.html" class="medecin-rdv-btn">
+              <i class="fa-solid fa-calendar-plus"></i> Prendre rendez-vous
+            </a>
+          </div>
+        </div>
+
+        <div class="medecin-card card-femme">
+          <div class="medecin-photo">
+            <div class="medecin-avatar-fallback">
+              <i class="fa-solid fa-venus"></i>
+            </div>
+            <span class="medecin-gender-badge"><i class="fa-solid fa-venus"></i> Gynécologue</span>
+          </div>
+          <div class="medecin-body">
+            <h3>Dr. Isabelle Martin</h3>
+            <div class="medecin-specialite">
+              <i class="fa-solid fa-venus"></i> Gynécologie-Obstétrique
+            </div>
+            <div class="medecin-details">
+              <div class="medecin-detail-line">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Diplômée de l'Université Paris-Sud — Faculté de Médecine — 2007</span>
+              </div>
+              <div class="medecin-detail-line">
+                <i class="fa-solid fa-award"></i>
+                <span>DESC Gynécologie-Obstétrique — Port Royal Baudelocque</span>
+              </div>
+              <div class="medecin-detail-line">
+                <i class="fa-solid fa-briefcase"></i>
+                <span>16 ans d'exercice — Suivi grossesse & colposcopie</span>
+              </div>
+            </div>
+            <div class="medecin-langues">
+              <span class="langue-pill">Français</span>
+              <span class="langue-pill">Anglais</span>
+              <span class="langue-pill">Arabe</span>
+            </div>
+            <div class="medecin-dispo">
+              <span class="dispo-pill"><i class="fa-solid fa-circle-check"></i> Disponible cette semaine</span>
+            </div>
+            <a href="rendez-vous.html" class="medecin-rdv-btn">
+              <i class="fa-solid fa-calendar-plus"></i> Prendre rendez-vous
+            </a>
+          </div>
+        </div>
+
+        <div class="medecin-card card-spe-dermato">
+          <div class="medecin-photo">
+            <div class="medecin-avatar-fallback">
+              <i class="fa-solid fa-hand-dots"></i>
+            </div>
+            <span class="medecin-gender-badge"><i class="fa-solid fa-mars"></i> Dermatologue</span>
+          </div>
+          <div class="medecin-body">
+            <h3>Dr. Marc Lefebvre</h3>
+            <div class="medecin-specialite">
+              <i class="fa-solid fa-hand-dots"></i> Dermatologie
+            </div>
+            <div class="medecin-details">
+              <div class="medecin-detail-line">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Diplômé de l'Université de Bordeaux — Faculté de Médecine — 2006</span>
+              </div>
+              <div class="medecin-detail-line">
+                <i class="fa-solid fa-award"></i>
+                <span>DU Dermoscopie Avancée — Pitié Salpêtrière</span>
+              </div>
+              <div class="medecin-detail-line">
+                <i class="fa-solid fa-briefcase"></i>
+                <span>17 ans — Spécialiste dermatologie oncologique</span>
+              </div>
+            </div>
+            <div class="medecin-langues">
+              <span class="langue-pill">Français</span>
+              <span class="langue-pill">Anglais</span>
+            </div>
+            <div class="medecin-dispo">
+              <span class="dispo-pill"><i class="fa-solid fa-circle-check"></i> Disponible cette semaine</span>
+            </div>
+            <a href="rendez-vous.html" class="medecin-rdv-btn">
+              <i class="fa-solid fa-calendar-plus"></i> Prendre rendez-vous
+            </a>
+          </div>
+        </div>
+
+        <!-- Neurologue -->
+        <div class="medecin-card card-spe-neuro">
+          <div class="medecin-photo">
+            <div class="medecin-avatar-fallback">
+              <i class="fa-solid fa-brain"></i>
+            </div>
+            <span class="medecin-gender-badge"><i class="fa-solid fa-venus"></i> Neurologue</span>
+          </div>
+          <div class="medecin-body">
+            <h3>Dr. Claire Fontaine</h3>
+            <div class="medecin-specialite">
+              <i class="fa-solid fa-brain"></i> Neurologie
+            </div>
+            <div class="medecin-details">
+              <div class="medecin-detail-line">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>Diplômée de la Faculté Paris Diderot — Paris 7 — 2009</span>
+              </div>
+              <div class="medecin-detail-line">
+                <i class="fa-solid fa-award"></i>
+                <span>DESC Neurologie — CHU La Salpêtrière, Paris</span>
+              </div>
+              <div class="medecin-detail-line">
+                <i class="fa-solid fa-award"></i>
+                <span>Membre de la Société Française de Neurologie</span>
+              </div>
+              <div class="medecin-detail-line">
+                <i class="fa-solid fa-briefcase"></i>
+                <span>14 ans — Expert migraines & pathologies AVC</span>
+              </div>
+            </div>
+            <div class="medecin-langues">
+              <span class="langue-pill">Français</span>
+              <span class="langue-pill">Anglais</span>
+              <span class="langue-pill">Italien</span>
+            </div>
+            <div class="medecin-dispo">
+              <span class="dispo-pill" style="background:#FEF9C3;color:#854D0E;"><i class="fa-solid fa-clock"></i> Prochain RDV : 3 jours</span>
+            </div>
+            <a href="rendez-vous.html" class="medecin-rdv-btn">
+              <i class="fa-solid fa-calendar-plus"></i> Prendre rendez-vous
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="rejoindre-box">
+        <i class="fa-solid fa-user-plus"></i>
+        <h3>Vous êtes professionnel de santé ?</h3>
+        <p>La Clinique Sainte-Claire recrute régulièrement des médecins spécialistes souhaitant rejoindre un environnement de travail stimulant, avec un plateau technique complet et une patientèle fidélisée.</p>
+        <a href="rendez-vous.html">
+          <i class="fa-solid fa-envelope"></i> Candidature spontanée
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+
+      <div class="footer-urgence-strip">
+        <i class="fa-solid fa-truck-medical"></i>
+        <span>Urgences 24h/24 — 7j/7 :</span>
+        <a href="tel:+33155000000">+33 1 55 00 00 00</a>
+        <span style="opacity:0.4">|</span>
+        <span>SAMU : <a href="tel:15" style="color:#FFD700">15</a></span>
+        <span style="opacity:0.4">|</span>
+        <span>Pompiers : <a href="tel:18" style="color:#FFD700">18</a></span>
+      </div>
+
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3><i class="fa-solid fa-heart-pulse"></i> Clinique Sainte-Claire</h3>
+          <p>Centre médical pluridisciplinaire engagé pour votre santé depuis 2009. Une équipe de spécialistes dévoués dans un cadre rassurant et bienveillant.</p>
+          <div class="footer-badge">
+            <i class="fa-solid fa-award"></i> Certifiée HAS — Niveau A
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><i class="fa-solid fa-chevron-right"></i><a href="index.html">Accueil</a></li>
+            <li><i class="fa-solid fa-chevron-right"></i><a href="services.html">Nos Services</a></li>
+            <li><i class="fa-solid fa-chevron-right"></i><a href="equipe.html">Équipe Médicale</a></li>
+            <li><i class="fa-solid fa-chevron-right"></i><a href="rendez-vous.html">Prendre RDV</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Horaires</h4>
+          <ul>
+            <li><i class="fa-solid fa-clock"></i><span>Lun – Ven : 8h – 20h</span></li>
+            <li><i class="fa-solid fa-clock"></i><span>Samedi : 8h – 17h</span></li>
+            <li><i class="fa-solid fa-ban"></i><span>Dimanche : Urgences seulement</span></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><i class="fa-solid fa-location-dot"></i><span>12 Rue de la Santé, 75014 Paris</span></li>
+            <li><i class="fa-solid fa-phone"></i><a href="tel:+33155000000">+33 1 55 00 00 00</a></li>
+            <li><i class="fa-solid fa-envelope"></i><a href="mailto:contact@clinique-sainteclaire.fr">contact@...</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2024 Clinique Sainte-Claire — Tous droits réservés &nbsp;|&nbsp; Mentions légales &nbsp;|&nbsp; Politique de confidentialité</p>
+      </div>
+
+    </div>
+  </footer>
+
+</body>
+</html>
