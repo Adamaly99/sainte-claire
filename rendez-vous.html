@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Clinique Sainte-Claire — Prenez rendez-vous en ligne avec nos médecins spécialistes. Horaires, adresse et contact.">
+  <title>Rendez-vous & Contact — Clinique Sainte-Claire</title>
+  <link rel="stylesheet" href="stylee.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700;800;900&family=Lato:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* Styles spécifiques à rendez-vous.html */
+
+    /* Étapes de prise de RDV */
+    .rdv-steps {
+      display: flex;
+      gap: 0;
+      margin-bottom: 45px;
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .rdv-step {
+      flex: 1;
+      padding: 18px 16px;
+      text-align: center;
+      position: relative;
+      border-right: 1px solid var(--border);
+    }
+
+    .rdv-step:last-child { border-right: none; }
+
+    .rdv-step-num {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--accent-light);
+      color: var(--primary);
+      font-family: var(--font-head);
+      font-weight: 900;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 9px;
+      transition: var(--transition);
+    }
+
+    .rdv-step.active .rdv-step-num {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      box-shadow: 0 4px 12px rgba(27,79,114,0.3);
+    }
+
+    .rdv-step-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .rdv-step.active .rdv-step-label { color: var(--primary); }
+
+    /* Message de confirmation (caché par défaut via CSS) */
+    .confirmation-msg {
+      display: none;
+      background: #D5F5E3;
+      border: 2px solid #27AE60;
+      border-radius: var(--radius-sm);
+      padding: 20px 24px;
+      margin-top: 20px;
+      color: #1E8449;
+    }
+
+    .confirmation-msg i { margin-right: 8px; font-size: 1.1rem; }
+    .confirmation-msg strong { font-weight: 800; }
+
+    /* Séparateur de section formulaire */
+    .form-section-label {
+      font-family: var(--font-head);
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--secondary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin: 22px 0 14px;
+      padding-bottom: 6px;
+      border-bottom: 1px dashed var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Mention RGPD */
+    .rgpd-note {
+      background: var(--off-white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xs);
+      padding: 12px 15px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin-top: 16px;
+      display: flex;
+      gap: 9px;
+      align-items: flex-start;
+    }
+
+    .rgpd-note i { color: var(--secondary); margin-top: 2px; flex-shrink: 0; }
+
+    /* Transports / Accès */
+    .acces-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .acces-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.87rem;
+      color: var(--text-muted);
+      padding: 10px 12px;
+      background: var(--off-white);
+      border-radius: var(--radius-xs);
+      border: 1px solid var(--border);
+    }
+
+    .acces-item i {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--accent-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--secondary);
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .acces-item strong {
+      display: block;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 0.83rem;
+      margin-bottom: 1px;
+    }
+
+    /* Bannière téléphone urgences */
+    .phone-banner {
+      background: linear-gradient(135deg, var(--urgence-dark), var(--urgence));
+      color: white;
+      border-radius: var(--radius);
+      padding: 22px 28px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .phone-banner i { font-size: 1.8rem; flex-shrink: 0; }
+
+    .phone-banner-text h4 {
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 1rem;
+      margin-bottom: 3px;
+    }
+
+    .phone-banner-text p { font-size: 0.83rem; opacity: 0.88; }
+
+    .phone-banner a {
+      margin-left: auto;
+      background: white;
+      color: var(--urgence-dark);
+      padding: 10px 22px;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      white-space: nowrap;
+      transition: var(--transition);
+    }
+
+    .phone-banner a:hover { transform: scale(1.03); }
+
+    /* Checkbox perso */
+    .checkbox-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      min-width: 18px;
+      accent-color: var(--secondary);
+      margin-top: 2px;
+      cursor: pointer;
+    }
+
+    .checkbox-group label {
+      font-size: 0.87rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      cursor: pointer;
+      margin-bottom: 0 !important;
+      font-weight: 400 !important;
+    }
+
+    /* Horaires — couleur week-end */
+    .jour-weekend { color: var(--secondary) !important; }
+    .jour-ferme { color: var(--urgence) !important; }
+
+    @media (max-width: 600px) {
+      .rdv-steps { flex-direction: column; }
+      .rdv-step { border-right: none; border-bottom: 1px solid var(--border); }
+      .rdv-step:last-child { border-bottom: none; }
+      .phone-banner a { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BARRE D'URGENCES STICKY -->
+  <div class="urgences-bar">
+    <i class="fa-solid fa-circle-exclamation urg-icon"></i>
+    <span>URGENCES 24h/24 — 7j/7 :</span>
+    <a href="tel:+33155000000"><i class="fa-solid fa-phone-volume"></i> +33 1 55 00 00 00</a>
+    <span class="urg-sep">|</span>
+    <span>SAMU : <a href="tel:15">15</a></span>
+    <span class="urg-sep">|</span>
+    <span>Pompiers : <a href="tel:18">18</a></span>
+    <span class="urg-badge"><i class="fa-solid fa-location-dot"></i> Salle d'urgence ouverte</span>
+  </div>
+
+  <!-- NAVIGATION -->
+  <header>
+    <nav class="navbar">
+      <a href="index.html" class="logo">
+        <div class="logo-mark">
+          <i class="fa-solid fa-heart-pulse"></i>
+        </div>
+        <div class="logo-text-wrap">
+          <h1>Clinique Sainte-Claire</h1>
+          <span>Centre Médical Pluridisciplinaire</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="services.html">Nos Services</a></li>
+        <li><a href="equipe.html">Équipe Médicale</a></li>
+        <li><a href="rendez-vous.html" class="nav-rdv-btn active">
+          <i class="fa-solid fa-calendar-check"></i> Rendez-vous
+        </a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- EN-TÊTE DE PAGE -->
+  <div class="page-header">
+    <h2><i class="fa-solid fa-calendar-plus"></i> Rendez-vous & Contact</h2>
+    <p>Choisissez votre médecin et réservez un créneau en ligne en moins de 2 minutes</p>
+  </div>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <div class="breadcrumb-inner">
+      <a href="index.html"><i class="fa-solid fa-house"></i> Accueil</a>
+      <span class="sep"><i class="fa-solid fa-chevron-right" style="font-size:0.65rem"></i></span>
+      <span>Rendez-vous & Contact</span>
+    </div>
+  </div>
+
+ 
+  <section class="bg-light">
+    <div class="container">
+
+      <!-- Étapes de RDV -->
+      <div class="rdv-steps">
+        <div class="rdv-step active">
+          <div class="rdv-step-num"><i class="fa-solid fa-user"></i></div>
+          <div class="rdv-step-label">Vos coordonnées</div>
+        </div>
+        <div class="rdv-step active">
+          <div class="rdv-step-num"><i class="fa-solid fa-user-doctor"></i></div>
+          <div class="rdv-step-label">Choisir un médecin</div>
+        </div>
+        <div class="rdv-step active">
+          <div class="rdv-step-num"><i class="fa-solid fa-calendar-days"></i></div>
+          <div class="rdv-step-label">Date & Heure</div>
+        </div>
+        <div class="rdv-step">
+          <div class="rdv-step-num"><i class="fa-solid fa-circle-check"></i></div>
+          <div class="rdv-step-label">Confirmation</div>
+        </div>
+      </div>
+
+      <!-- Layout 2 colonnes (CSS Grid) -->
+      <div class="rdv-layout">
+
+        
+        <div class="form-card">
+          <h3>
+            <i class="fa-solid fa-calendar-plus"></i>
+            Prise de Rendez-vous
+          </h3>
+          <p class="form-subtitle">
+            <i class="fa-solid fa-circle-info" style="color:var(--secondary);margin-right:6px;"></i>
+            Tous les champs marqués d'un <span style="color:var(--urgence);font-weight:800;">*</span> sont obligatoires. Vous recevrez une confirmation par e-mail et SMS.
+          </p>
+
+         
+          <div class="form-section-label">
+            <i class="fa-solid fa-user"></i> Vos informations
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="prenom">Prénom <span class="required">*</span></label>
+              <input type="text" id="prenom" name="prenom" placeholder="ex : Marie" required>
+            </div>
+            <div class="form-group">
+              <label for="nom">Nom <span class="required">*</span></label>
+              <input type="text" id="nom" name="nom" placeholder="ex : Dupont" required>
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="telephone">Téléphone <span class="required">*</span></label>
+              <input type="tel" id="telephone" name="telephone" placeholder="06 00 00 00 00" required>
+            </div>
+            <div class="form-group">
+              <label for="email">E-mail <span class="required">*</span></label>
+              <input type="email" id="email" name="email" placeholder="prenom@exemple.fr" required>
+            </div>
+          </div>
+
+          <div class="form-row-3">
+            <div class="form-group">
+              <label for="date_naissance">Date de naissance <span class="required">*</span></label>
+              <input type="date" id="date_naissance" name="date_naissance" required>
+            </div>
+            <div class="form-group">
+              <label for="sexe">Sexe</label>
+              <div class="select-wrapper">
+                <select id="sexe" name="sexe">
+                  <option value="">— Choisir —</option>
+                  <option value="M">Masculin</option>
+                  <option value="F">Féminin</option>
+                  <option value="NB">Non-binaire</option>
+                  <option value="NR">Non renseigné</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="mutuelle">Mutuelle</label>
+              <div class="select-wrapper">
+                <select id="mutuelle" name="mutuelle">
+                  <option value="">— Aucune —</option>
+                  <option value="MGEN">MGEN</option>
+                  <option value="MAAF">MAAF Santé</option>
+                  <option value="CPAM">CPAM</option>
+                  <option value="AXA">AXA Santé</option>
+                  <option value="MALAKOFF">Malakoff</option>
+                  <option value="ALLIANZ">Allianz</option>
+                  <option value="AUTRE">Autre</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+        
+          <div class="form-section-label">
+            <i class="fa-solid fa-user-doctor"></i> Choix du médecin
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="specialite">Spécialité souhaitée <span class="required">*</span></label>
+              <div class="select-wrapper">
+                <select id="specialite" name="specialite" required>
+                  <option value="">— Sélectionner —</option>
+                  <option value="medecine_generale">Médecine Générale</option>
+                  <option value="cardiologie">Cardiologie</option>
+                  <option value="pediatrie">Pédiatrie</option>
+                  <option value="gynecologie">Gynécologie-Obstétrique</option>
+                  <option value="chirurgie">Chirurgie Orthopédique</option>
+                  <option value="neurologie">Neurologie</option>
+                  <option value="ophtalmologie">Ophtalmologie</option>
+                  <option value="orl">ORL</option>
+                  <option value="dermatologie">Dermatologie</option>
+                  <option value="radiologie">Radiologie & Imagerie</option>
+                  <option value="urgences">Urgences</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="medecin">Médecin préféré</label>
+              <div class="select-wrapper">
+                <select id="medecin" name="medecin">
+                  <option value="">— Indifférent —</option>
+                  <option value="diallo">Dr. Aminata Diallo</option>
+                  <option value="renard">Dr. Jean-Paul Renard</option>
+                  <option value="beaumont">Dr. Thomas Beaumont</option>
+                  <option value="sow">Dr. Fatou Sow</option>
+                  <option value="toure">Dr. Ibrahim Touré</option>
+                  <option value="martin">Dr. Isabelle Martin</option>
+                  <option value="lefebvre">Dr. Marc Lefebvre</option>
+                  <option value="fontaine">Dr. Claire Fontaine</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+         
+          <div class="form-section-label">
+            <i class="fa-solid fa-calendar-days"></i> Date & créneau horaire
+          </div>
+
+          <div class="form-row-3">
+            <div class="form-group">
+              <label for="date_rdv">Date souhaitée <span class="required">*</span></label>
+              <input type="date" id="date_rdv" name="date_rdv" required>
+            </div>
+            <div class="form-group">
+              <label for="heure">Heure souhaitée <span class="required">*</span></label>
+              <div class="select-wrapper">
+                <select id="heure" name="heure" required>
+                  <option value="">— Choisir —</option>
+                  <optgroup label="Matin">
+                    <option value="08:00">08h00</option>
+                    <option value="08:30">08h30</option>
+                    <option value="09:00">09h00</option>
+                    <option value="09:30">09h30</option>
+                    <option value="10:00">10h00</option>
+                    <option value="10:30">10h30</option>
+                    <option value="11:00">11h00</option>
+                    <option value="11:30">11h30</option>
+                  </optgroup>
+                  <optgroup label="Après-midi">
+                    <option value="14:00">14h00</option>
+                    <option value="14:30">14h30</option>
+                    <option value="15:00">15h00</option>
+                    <option value="15:30">15h30</option>
+                    <option value="16:00">16h00</option>
+                    <option value="16:30">16h30</option>
+                    <option value="17:00">17h00</option>
+                    <option value="17:30">17h30</option>
+                    <option value="18:00">18h00</option>
+                    <option value="18:30">18h30</option>
+                    <option value="19:00">19h00</option>
+                  </optgroup>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="type_consult">Type de consultation</label>
+              <div class="select-wrapper">
+                <select id="type_consult" name="type_consult">
+                  <option value="premiere">1ère consultation</option>
+                  <option value="suivi">Consultation de suivi</option>
+                  <option value="urgente">Urgente (même jour)</option>
+                  <option value="bilan">Bilan de santé</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+        
+          <div class="form-section-label">
+            <i class="fa-solid fa-notes-medical"></i> Motif de consultation
+          </div>
+
+          <div class="form-group">
+            <label for="motif">Décrivez brièvement votre motif <span class="required">*</span></label>
+            <textarea id="motif" name="motif" placeholder="Ex : Douleur thoracique depuis 3 jours, bilan annuel, renouvellement ordonnance..." required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="allergies">Allergies médicamenteuses connues (optionnel)</label>
+            <input type="text" id="allergies" name="allergies" placeholder="Ex : Pénicilline, Aspirine...">
+          </div>
+
+          <!-- Consentement -->
+          <div class="form-group" style="margin-top:18px;">
+            <div class="checkbox-group">
+              <input type="checkbox" id="consent" name="consent" required>
+              <label for="consent">
+                J'accepte que mes données personnelles soient traitées par la Clinique Sainte-Claire pour la prise en charge médicale, conformément au <strong>RGPD</strong> et à la politique de confidentialité. <span style="color:var(--urgence);">*</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="checkbox-group">
+              <input type="checkbox" id="rappel" name="rappel" checked>
+              <label for="rappel">
+                Recevoir un rappel par SMS 24h avant mon rendez-vous.
+              </label>
+            </div>
+          </div>
+
+         
+          <div class="rgpd-note">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Vos données médicales sont protégées et traitées sous secret médical. Elles ne sont jamais partagées avec des tiers sans votre consentement explicite. Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression.</span>
+          </div>
+
+          
+          <button class="btn-soumettre" type="submit">
+            <i class="fa-solid fa-calendar-check"></i>
+            Confirmer ma demande de rendez-vous
+          </button>
+
+          <!-- Message de confirmation (CSS seulement — s'affiche si la case est cochée) -->
+          <div class="confirmation-msg">
+            <i class="fa-solid fa-circle-check"></i>
+            <strong>Demande envoyée avec succès !</strong><br>
+            Vous recevrez une confirmation par e-mail et SMS dans les 30 minutes. En cas d'urgence, appelez le <strong>+33 1 55 00 00 00</strong>.
+          </div>
+
+        </div><!-- /.form-card -->
+
+       
+        <div class="contact-col">
+
+          <!-- Téléphone urgences -->
+          <div class="phone-banner">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <div class="phone-banner-text">
+              <h4>Urgences médicales</h4>
+              <p>Disponible 24h/24, 7j/7 — Sans rendez-vous</p>
+            </div>
+            <a href="tel:+33155000000">
+              <i class="fa-solid fa-phone-volume"></i> +33 1 55 00 00 00
+            </a>
+          </div>
+
+          <!-- Horaires d'ouverture -->
+          <div class="contact-block">
+            <div class="contact-block-title">
+              <i class="fa-solid fa-clock"></i> Horaires d'ouverture
+            </div>
+            <table class="horaires-table">
+              <tbody>
+                <tr>
+                  <td>Lundi</td>
+                  <td class="jour-weekend">08h00 – 20h00</td>
+                </tr>
+                <tr>
+                  <td>Mardi</td>
+                  <td>08h00 – 20h00</td>
+                </tr>
+                <tr>
+                  <td>Mercredi</td>
+                  <td>08h00 – 20h00</td>
+                </tr>
+                <tr>
+                  <td>Jeudi</td>
+                  <td>08h00 – 20h00</td>
+                </tr>
+                <tr>
+                  <td>Vendredi</td>
+                  <td>08h00 – 20h00</td>
+                </tr>
+                <tr>
+                  <td>Samedi</td>
+                  <td class="jour-weekend">08h00 – 17h00</td>
+                </tr>
+                <tr class="ferme">
+                  <td>Dimanche</td>
+                  <td class="jour-ferme">Urgences uniquement</td>
+                </tr>
+              </tbody>
+            </table>
+            <div style="margin-top:14px; padding:10px 14px; background:var(--accent-light); border-radius:var(--radius-xs); font-size:0.83rem; color:var(--primary-light);">
+              <i class="fa-solid fa-circle-info"></i>
+              &nbsp;Consultations sans RDV : Lun–Ven de <strong>8h à 11h</strong> (médecine générale uniquement, selon disponibilité)
+            </div>
+          </div>
+
+          <div class="contact-block">
+            <div class="contact-block-title">
+              <i class="fa-solid fa-location-dot"></i> Adresse & Accès
+            </div>
+            <div class="adresse-lines">
+              <div class="adresse-line">
+                <i class="fa-solid fa-building"></i>
+                <span><strong>Clinique Sainte-Claire</strong><br>12 Rue de la Santé<br>75014 Paris — France</span>
+              </div>
+              <div class="adresse-line">
+                <i class="fa-solid fa-phone"></i>
+                <span><a href="tel:+33155000000" style="color:var(--secondary);font-weight:700;">+33 1 55 00 00 00</a></span>
+              </div>
+              <div class="adresse-line">
+                <i class="fa-solid fa-envelope"></i>
+                <span><a href="mailto:contact@clinique-sainteclaire.fr" style="color:var(--secondary);font-weight:700;">contact@clinique-sainteclaire.fr</a></span>
+              </div>
+            </div>
+
+            <!-- Carte / Plan placeholder -->
+            <div class="map-box">
+              <i class="fa-solid fa-map-location-dot"></i>
+              <p>12 Rue de la Santé, 75014 Paris</p>
+              <span style="font-size:0.75rem;color:var(--text-light);">Cliquer pour ouvrir dans Google Maps</span>
+            </div>
+          </div>
+
+          <!-- Transports & Accès -->
+          <div class="contact-block">
+            <div class="contact-block-title">
+              <i class="fa-solid fa-map"></i> Comment venir
+            </div>
+            <div class="acces-list">
+              <div class="acces-item">
+                <i class="fa-solid fa-train-subway"></i>
+                <div>
+                  <strong>Métro</strong>
+                  Lignes 6 et 13 — Station Glacière ou Denfert-Rochereau (5 min à pied)
+                </div>
+              </div>
+              <div class="acces-item">
+                <i class="fa-solid fa-bus"></i>
+                <div>
+                  <strong>Bus</strong>
+                  Lignes 21, 27, 38 — Arrêt "Santé" (2 min à pied)
+                </div>
+              </div>
+              <div class="acces-item">
+                <i class="fa-solid fa-car"></i>
+                <div>
+                  <strong>Voiture & Parking</strong>
+                  Parking souterrain gratuit — 30 places dont 5 PMR. Entrée par le 14 Rue de la Santé.
+                </div>
+              </div>
+              <div class="acces-item">
+                <i class="fa-solid fa-bicycle"></i>
+                <div>
+                  <strong>Vélo & Trottinette</strong>
+                  Station Vélib' N°14023 à 50 m. Rack à vélos sécurisé à l'entrée.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contacts utiles -->
+          <div class="contact-block">
+            <div class="contact-block-title">
+              <i class="fa-solid fa-address-book"></i> Contacts utiles
+            </div>
+            <div class="adresse-lines">
+              <div class="adresse-line">
+                <i class="fa-solid fa-phone"></i>
+                <span><strong>Standard général :</strong> <a href="tel:+33155000000" style="color:var(--secondary);font-weight:700;">+33 1 55 00 00 00</a></span>
+              </div>
+              <div class="adresse-line">
+                <i class="fa-solid fa-flask"></i>
+                <span><strong>Laboratoire :</strong> <a href="tel:+33155001122" style="color:var(--secondary);">+33 1 55 00 11 22</a></span>
+              </div>
+              <div class="adresse-line">
+                <i class="fa-solid fa-file-invoice"></i>
+                <span><strong>Facturation / Mutuelle :</strong> <a href="tel:+33155003344" style="color:var(--secondary);">+33 1 55 00 33 44</a></span>
+              </div>
+              <div class="adresse-line">
+                <i class="fa-solid fa-fax"></i>
+                <span><strong>Fax médecins référents :</strong> +33 1 55 00 99 00</span>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /.contact-col -->
+
+      </div><!-- /.rdv-layout -->
+
+    </div>
+  </section>
+
+  <section style="padding: 55px 30px; background: white;">
+    <div class="container" style="text-align:center;">
+      <div class="section-tag" style="margin-bottom:14px;"><i class="fa-solid fa-question-circle"></i> Besoin d'aide ?</div>
+      <h2 style="font-family:var(--font-head);font-size:1.9rem;font-weight:800;color:var(--primary);margin-bottom:12px;">
+        Une question avant votre rendez-vous ?
+      </h2>
+      <p style="color:var(--text-muted);max-width:500px;margin:0 auto 30px;">
+        Notre équipe d'accueil est disponible par téléphone ou e-mail pour vous guider et répondre à toutes vos questions.
+      </p>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+        <a href="tel:+33155000000" class="btn btn-primary-solid">
+          <i class="fa-solid fa-phone"></i> Appeler le standard
+        </a>
+        <a href="mailto:contact@clinique-sainteclaire.fr" class="btn btn-outline-primary">
+          <i class="fa-solid fa-envelope"></i> Envoyer un e-mail
+        </a>
+        <a href="index.html#faq1" class="btn btn-outline-primary">
+          <i class="fa-solid fa-circle-question"></i> Consulter la FAQ
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PIED DE PAGE -->
+  <footer>
+    <div class="footer-inner">
+
+      <div class="footer-urgence-strip">
+        <i class="fa-solid fa-truck-medical"></i>
+        <span>Urgences 24h/24 — 7j/7 :</span>
+        <a href="tel:+33155000000">+33 1 55 00 00 00</a>
+        <span style="opacity:0.4">|</span>
+        <span>SAMU : <a href="tel:15" style="color:#FFD700">15</a></span>
+        <span style="opacity:0.4">|</span>
+        <span>Pompiers : <a href="tel:18" style="color:#FFD700">18</a></span>
+      </div>
+
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3><i class="fa-solid fa-heart-pulse"></i> Clinique Sainte-Claire</h3>
+          <p>Centre médical pluridisciplinaire engagé pour votre santé depuis 2009. Une équipe de spécialistes dévoués dans un cadre rassurant et bienveillant.</p>
+          <div class="footer-badge">
+            <i class="fa-solid fa-award"></i> Certifiée HAS — Niveau A
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><i class="fa-solid fa-chevron-right"></i><a href="index.html">Accueil</a></li>
+            <li><i class="fa-solid fa-chevron-right"></i><a href="services.html">Nos Services</a></li>
+            <li><i class="fa-solid fa-chevron-right"></i><a href="equipe.html">Équipe Médicale</a></li>
+            <li><i class="fa-solid fa-chevron-right"></i><a href="rendez-vous.html">Prendre RDV</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Horaires</h4>
+          <ul>
+            <li><i class="fa-solid fa-clock"></i><span>Lun – Ven : 8h – 20h</span></li>
+            <li><i class="fa-solid fa-clock"></i><span>Samedi : 8h – 17h</span></li>
+            <li><i class="fa-solid fa-ban"></i><span>Dimanche : Urgences seulement</span></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><i class="fa-solid fa-location-dot"></i><span>12 Rue de la Santé, 75014 Paris</span></li>
+            <li><i class="fa-solid fa-phone"></i><a href="tel:+33155000000">+33 1 55 00 00 00</a></li>
+            <li><i class="fa-solid fa-envelope"></i><a href="mailto:contact@clinique-sainteclaire.fr">contact@clinique-sainteclaire.fr</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2024 Clinique Sainte-Claire — Tous droits réservés &nbsp;|&nbsp; Mentions légales &nbsp;|&nbsp; Politique de confidentialité &nbsp;|&nbsp; Plan du site</p>
+      </div>
+
+    </div>
+  </footer>
+
+</body>
+</html>
