@@ -276,3 +276,13 @@ section.bg-gray  { background: var(--gray-light); }
   margin: 20px auto 0;
   border-radius: 2px;
 }
+.form-card h3 {
+  font-family: var(--font-head);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
